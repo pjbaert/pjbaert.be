@@ -1,4 +1,4 @@
-const staticPjbaert = "pjbaert-site-v1.2";
+const staticPjbaert = "pjbaert-site-v1.3";
 const assets = [
   "/",
   "/index.html",
