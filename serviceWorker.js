@@ -1,4 +1,4 @@
-const staticPjbaert = "pjbaert-site-v2.2";
+const staticPjbaert = "pjbaert-site-v2.3";
 const assets = [
   "/",
   "/index.html",
@@ -19,8 +19,8 @@ self.addEventListener("install", installEvent => {
   )
 })
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
+self.addEventListener('activate', activateEvent => {
+  activateEvent.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(
@@ -45,11 +45,11 @@ self.addEventListener("fetch", fetchEvent => {
         caches.open(staticPjbaert)
           .then(cache => {
               // Add response to cache
-              cache.put(e.request, resClone);
+              cache.put(fetchEvent.request, resClone);
           });
         return res;
       }).catch(
-        err => caches.match(e.request)
+        err => caches.match(fetchEvent.request)
         .then(res => res)
       )
   );
