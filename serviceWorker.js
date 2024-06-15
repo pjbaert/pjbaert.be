@@ -1,4 +1,4 @@
-const staticPjbaert = "pjbaert-site-v2.3";
+const staticPjbaert = "pjbaert-site-v2.4";
 const assets = [
   "/",
   "/index.html",
@@ -26,7 +26,6 @@ self.addEventListener('activate', activateEvent => {
         cacheNames.map(
           cache => {
             if (cache !== staticPjbaert) {
-              console.log('Service Worker: Clearing Old Cache');
               return caches.delete(cache);
             }
           }
