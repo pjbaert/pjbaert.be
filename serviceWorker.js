@@ -7,12 +7,12 @@ const assets = [
   "/favicon-16x26.png",
   "/favicon-32x32.png",
   "/mstile-150x150.png"
-]
-
+];
 
 self.addEventListener("install", installEvent => {
   installEvent.waitUntil(
-    caches.open(staticPjbaert).then(cache => {
+    caches.open(staticPjbaert)
+    .then(cache => {
       cache.addAll(assets)
         .then(() => self.skipWaiting())
     })
@@ -38,8 +38,19 @@ self.addEventListener('activate', e => {
 
 self.addEventListener("fetch", fetchEvent => {
   fetchEvent.respondWith(
-    caches.match(fetchEvent.request).then(res => {
-      return res || fetch(fetchEvent.request)
-    })
-  )
+    fetch(fetchEvent.request)
+      .then(res => {
+        const resClone = res.clone();
+        // Open cache
+        caches.open(staticPjbaert)
+          .then(cache => {
+              // Add response to cache
+              cache.put(e.request, resClone);
+          });
+        return res;
+      }).catch(
+        err => caches.match(e.request)
+        .then(res => res)
+      )
+  );
 })
