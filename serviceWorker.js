@@ -13,7 +13,8 @@ const assets = [
 self.addEventListener("install", installEvent => {
   installEvent.waitUntil(
     caches.open(staticPjbaert).then(cache => {
-      cache.addAll(assets).then(() => self.skipWaiting())
+      cache.addAll(assets)
+        .then(() => self.skipWaiting())
     })
   )
 })
