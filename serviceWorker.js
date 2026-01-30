@@ -1,8 +1,9 @@
-const staticPjbaert = "pjbaert-site-v2.4";
+const staticPjbaert = "pjbaert-site-v2.5";
 const assets = [
   "/",
   "/index.html",
   "/app.js",
+  "/hi.js",
   "/favicon.ico",
   "/favicon-16x16.png",
   "/favicon-32x32.png",
@@ -12,10 +13,8 @@ const assets = [
 self.addEventListener("install", installEvent => {
   installEvent.waitUntil(
     caches.open(staticPjbaert)
-    .then(cache => {
-      cache.addAll(assets)
-        .then(() => self.skipWaiting())
-    })
+      .then(cache => cache.addAll(assets))
+      .then(() => self.skipWaiting())
   )
 })
 
@@ -31,7 +30,7 @@ self.addEventListener('activate', activateEvent => {
           }
         )
       )
-    })
+    }).then(() => self.clients.claim())
   );
 })
 
@@ -48,8 +47,7 @@ self.addEventListener("fetch", fetchEvent => {
           });
         return res;
       }).catch(
-        err => caches.match(fetchEvent.request)
-        .then(res => res)
+        () => caches.match(fetchEvent.request)
       )
   );
 })
