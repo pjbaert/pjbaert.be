@@ -1,9 +1,10 @@
-const staticPjbaert = "pjbaert-site-v2.5";
+const staticPjbaert = "pjbaert-site-v2.6";
 const assets = [
   "/",
   "/index.html",
   "/app.js",
   "/hi.js",
+  "/manifest.json",
   "/favicon.ico",
   "/favicon-16x16.png",
   "/favicon-32x32.png",
