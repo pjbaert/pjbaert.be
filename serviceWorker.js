@@ -1,4 +1,4 @@
-const staticPjbaert = "pjbaert-site-v2.6";
+const staticPjbaert = "pjbaert-site-v2.7";
 const assets = [
   "/",
   "/index.html",
@@ -36,16 +36,24 @@ self.addEventListener('activate', activateEvent => {
 })
 
 self.addEventListener("fetch", fetchEvent => {
+  if (fetchEvent.request.method !== "GET") {
+    return;
+  }
+
   fetchEvent.respondWith(
     fetch(fetchEvent.request)
       .then(res => {
+        if (!res || !res.ok) {
+          return res;
+        }
+
         const resClone = res.clone();
-        // Open cache
+
         caches.open(staticPjbaert)
           .then(cache => {
-              // Add response to cache
-              cache.put(fetchEvent.request, resClone);
+            cache.put(fetchEvent.request, resClone);
           });
+
         return res;
       }).catch(
         () => caches.match(fetchEvent.request)
